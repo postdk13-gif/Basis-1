@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basisaufgaben Mix 1 – Prüfungsvorbereitung Klasse 10</title>
+<style>
+  :root{
+    --paper:#fdfdfb; --grid:#e3ebf5; --ink:#1d2433; --blue:#1f4fa3; --blue-soft:#e8eefa;
+    --red:#c22f3a; --red-soft:#fbe9ea; --green:#2c7a4b; --green-soft:#e5f3ea; --muted:#5d6678; --line:#c9d3e2;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; color:var(--ink); font:17px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:22px 22px;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:28px 18px 80px}
+  header h1{font-family:Georgia,"Times New Roman",serif;font-size:2rem;line-height:1.2;margin:0 0 6px;color:var(--blue)}
+  header p{margin:0 0 6px;color:var(--muted)}
+  .bar{position:sticky;top:0;z-index:5;background:rgba(253,253,251,.96);border-bottom:2px solid var(--blue);
+       margin:18px -18px 22px;padding:10px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .meter{flex:1;min-width:160px;height:12px;background:var(--blue-soft);border-radius:6px;overflow:hidden}
+  .meter span{display:block;height:100%;width:0;background:var(--green);transition:width .4s}
+  .score{font-weight:600;white-space:nowrap}
+  .task{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:6px;
+        padding:16px 18px 14px;margin:0 0 18px}
+  .task.done{border-left-color:var(--green)}
+  .head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+  .num{font-family:Georgia,serif;font-size:1.35rem;font-weight:700;color:var(--blue)}
+  .src{font-size:.82rem;color:var(--muted);text-align:right}
+  .q{margin:2px 0 10px}
+  .field{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .field label{min-width:0}
+  input[type=text]{font:inherit;font-size:1.05rem;padding:7px 10px;width:150px;border:none;border-bottom:2px solid var(--blue);
+        background:var(--blue-soft);border-radius:4px 4px 0 0;color:var(--blue)}
+  input[type=text]:focus{outline:3px solid #9fb8e6;outline-offset:1px}
+  input.ok{border-bottom-color:var(--green);background:var(--green-soft);color:var(--green)}
+  input.no{border-bottom-color:var(--red);background:var(--red-soft);color:var(--red)}
+  .unit{color:var(--muted)}
+  .mc{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+  .mc button{font:inherit;padding:7px 14px;border:2px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;color:var(--ink)}
+  .mc button[aria-pressed=true]{border-color:var(--blue);background:var(--blue-soft);color:var(--blue);font-weight:600}
+  .mc button.ok{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+  .mc button.no{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:inherit;font-size:.95rem;padding:7px 14px;border-radius:6px;cursor:pointer;border:2px solid var(--blue);background:var(--blue);color:#fff}
+  .btn.ghost{background:#fff;color:var(--blue)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn:focus-visible,.mc button:focus-visible{outline:3px solid #9fb8e6;outline-offset:2px}
+  .fb{margin-top:8px;font-weight:600;min-height:1.2em}
+  .fb.ok{color:var(--green)} .fb.no{color:var(--red)}
+  .box{margin-top:10px;padding:12px 14px;border-radius:6px;font-size:.97rem}
+  .tip{background:#fff8e1;border:1px dashed #d9b44a}
+  .sol{background:var(--green-soft);border:1px solid #b9dcc6}
+  .sol h4{margin:0 0 6px;font-size:1rem;color:var(--green)}
+  .sol .alt{margin-top:8px;padding-top:8px;border-top:1px dashed #9ccab0}
+  .calc{font-family:Georgia,serif;font-size:1.02rem}
+  table.wt{border-collapse:collapse;margin:6px 0}
+  table.wt td{border:1px solid var(--line);padding:4px 12px;text-align:center}
+  svg{max-width:100%;height:auto}
+  .end{background:#fff;border:2px solid var(--blue);border-radius:8px;padding:18px;margin-top:26px}
+  .end h2{font-family:Georgia,serif;margin:0 0 8px;color:var(--blue)}
+  footer{margin-top:30px;font-size:.82rem;color:var(--muted)}
+  @media (max-width:520px){ body{font-size:16px} header h1{font-size:1.6rem} .head{flex-direction:column;gap:0} .src{text-align:left} }
+  @media (prefers-reduced-motion:reduce){ .meter span{transition:none} }
+  @media print{ .bar,.actions,.fb{display:none} body{background:none} .task{break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Basisaufgaben im Mix</h1>
+    <p>Prüfungsvorbereitung Mathematik Klasse 10, Set 1 mit 20 Aufgaben aus echten Brandenburger Abschlussprüfungen.</p>
+    <p>So gehst du vor: Löse jede Aufgabe zuerst selbst im Heft. Trage dann dein Ergebnis ein und klicke auf „Prüfen“. Danach kannst du dir den Lösungsvorschlag ansehen und mit deinem Rechenweg vergleichen. Einheiten musst du nicht mit eintippen, Komma oder Punkt ist egal.</p>
+  </header>
+
+  <div class="bar" role="status" aria-live="polite">
+    <div class="meter" aria-hidden="true"><span id="meter"></span></div>
+    <div class="score" id="score">0 von 21 Punkten</div>
+    <button class="btn ghost" id="reset" type="button">Neu starten</button>
+  </div>
+
+  <main id="tasks"></main>
+
+  <section class="end" id="end">
+    <h2>Deine Auswertung</h2>
+    <p id="endText">Bearbeite die Aufgaben und klicke dann hier auf „Auswerten“.</p>
+    <button class="btn" id="evalBtn" type="button">Auswerten</button>
+  </section>
+
+  <footer>Aufgaben aus den schriftlichen Prüfungen am Ende der Jahrgangsstufe 10 (Brandenburg), MBJS. Für den Unterricht aufbereitet. Die Seite speichert keine Eingaben und sendet keine Daten.</footer>
+</div>
+
+<script>
+/* Aufgabentypen: "num" (Zahlenfeld, mehrere akzeptierte Werte), "mc" (Auswahl) */
+const T = [
+ {src:"Prüfung 2013/14, Aufgabe 1a", q:"Bestimmen Sie 13 % von 50 €.",
+  parts:[{type:"num", label:"", unit:"€", accept:[6.5]}],
+  tip:"Berechne zuerst 1 % von 50 €, dann 13 %. Oder rechne 50 · 0,13.",
+  sol:`<p class="calc">W = G · p = 50 € · 0,13 = <b>6,50 €</b></p><p>Alternativ: 1 % sind 0,50 €, also sind 13 % gleich 13 · 0,50 € = 6,50 €.</p>`,
+  alt:"Auch richtig: 6,5 €"},
+
+ {src:"Prüfung 2016/17, Aufgabe 1e", q:"Kreuzen Sie die kleinste Zahl an.",
+  parts:[{type:"mc", options:["−0,01","−10³","−10²","−0,1"], correct:1}],
+  tip:"Schreibe die Zehnerpotenzen aus. Bei negativen Zahlen ist die Zahl am kleinsten, die am weitesten links auf dem Zahlenstrahl liegt.",
+  sol:`<p>−10³ = −1000 und −10² = −100. Die Zahl −1000 liegt am weitesten links auf dem Zahlenstrahl.</p><p class="calc">−1000 &lt; −100 &lt; −0,1 &lt; −0,01, also ist <b>−10³</b> die kleinste Zahl.</p>`},
+
+ {src:"Prüfung 2023/24, Aufgabe 1a", q:"Kreuzen Sie an, wie viele Minuten 3,25 Stunden sind.",
+  parts:[{type:"mc", options:["185 min","195 min","205 min","215 min"], correct:1}],
+  tip:"0,25 Stunden ist eine Viertelstunde.",
+  sol:`<p class="calc">3 h = 180 min und 0,25 h = 15 min<br>3,25 h = 180 min + 15 min = <b>195 min</b></p><p>Oder direkt: 3,25 · 60 min = 195 min.</p>`},
+
+ {src:"Prüfung 2022/23, Aufgabe 1e", q:"Geben Sie die Lösung der Gleichung 3 · (x − 8) + 2 = 2 an.",
+  parts:[{type:"num", label:"x =", accept:[8]}],
+  tip:"Subtrahiere zuerst auf beiden Seiten 2. Was muss dann in der Klammer stehen?",
+  sol:`<p class="calc">3 · (x − 8) + 2 = 2 &nbsp;&nbsp;| −2<br>3 · (x − 8) = 0 &nbsp;&nbsp;| : 3<br>x − 8 = 0 &nbsp;&nbsp;| +8<br><b>x = 8</b></p><p>Probe: 3 · (8 − 8) + 2 = 3 · 0 + 2 = 2 ✓</p>`},
+
+ {src:"Prüfung 2020/21, Aufgabe 1f", q:"Beim Weitsprung erreichte Paul folgende Weiten: 4,08 m; 3,88 m; 3,92 m; 4,12 m.<br>Geben Sie die durchschnittliche Weite an.",
+  parts:[{type:"num", label:"", unit:"m", accept:[4, 400]}],
+  tip:"Addiere alle Weiten und teile durch die Anzahl der Sprünge.",
+  sol:`<p class="calc">(4,08 + 3,88 + 3,92 + 4,12) : 4 = 16,00 : 4 = <b>4,00 m</b></p>`,
+  alt:"Auch richtig: 4 m oder 400 cm"},
+
+ {src:"Prüfung 2021/22, Aufgabe 1b", q:"Auf dem Markt kosten 3 kg Äpfel 4,80 €.<br>Geben Sie den Preis für 5 kg Äpfel an.",
+  parts:[{type:"num", label:"", unit:"€", accept:[8]}],
+  tip:"Dreisatz: Rechne erst aus, was 1 kg kostet.",
+  sol:`<p class="calc">3 kg ≙ 4,80 €<br>1 kg ≙ 4,80 € : 3 = 1,60 €<br>5 kg ≙ 1,60 € · 5 = <b>8,00 €</b></p>`,
+  alt:"Auch richtig: 8 €"},
+
+ {src:"Prüfung 2022/23, Aufgabe 1g (2 Punkte)", q:"Gegeben ist das Dreieck ABC (Skizze nicht maßstabsgerecht).<br>Geben Sie die Länge der Seite BC und die Größe des Winkels γ an.",
+  fig:`<svg viewBox="0 0 260 210" width="260" role="img" aria-label="Dreieck ABC mit AC gleich 6 cm und Winkeln von 70 Grad bei A und B">
+    <polygon points="40,180 220,180 130,25" fill="#eef3fb" stroke="#1d2433" stroke-width="2"/>
+    <path d="M70,180 A30,30 0 0 0 54.3,155.6" fill="none" stroke="#1d2433" stroke-width="1.5"/>
+    <path d="M190,180 A30,30 0 0 1 205.7,155.6" fill="none" stroke="#1d2433" stroke-width="1.5"/>
+    <path d="M116.2,48.9 A28,28 0 0 0 143.8,48.9" fill="none" stroke="#1d2433" stroke-width="1.5"/>
+    <text x="72" y="172" font-size="13">70°</text><text x="162" y="172" font-size="13">70°</text>
+    <text x="123" y="70" font-size="15" font-style="italic">γ</text>
+    <text x="48" y="105" font-size="15">6 cm</text>
+    <text x="26" y="200" font-size="16" font-weight="bold">A</text><text x="222" y="200" font-size="16" font-weight="bold">B</text><text x="124" y="18" font-size="16" font-weight="bold">C</text>
+  </svg>`,
+  parts:[{type:"num", label:"BC =", unit:"cm", accept:[6]},{type:"num", label:"γ =", unit:"°", accept:[40]}],
+  tip:"Zwei gleich große Basiswinkel bedeuten, dass das Dreieck gleichschenklig ist. Die Winkelsumme im Dreieck beträgt 180°.",
+  sol:`<p>Die Winkel bei A und B sind gleich groß, also ist das Dreieck gleichschenklig. Die Schenkel AC und BC sind gleich lang.</p><p class="calc"><b>BC = 6 cm</b><br>γ = 180° − 70° − 70° = <b>40°</b></p>`},
+
+ {src:"Prüfung 2024/25, Aufgabe 1d", q:"Geben Sie den Exponenten der Zehnerpotenz so an, dass die Gleichung stimmt.<br><span class='calc'>850 000 = 8,5 · 10<sup>?</sup></span>",
+  parts:[{type:"num", label:"Exponent:", accept:[5]}],
+  tip:"Zähle, um wie viele Stellen das Komma von 8,5 nach rechts wandern muss, damit 850 000 herauskommt.",
+  sol:`<p class="calc">8,5 · 10<sup>5</sup> = 8,5 · 100 000 = 850 000</p><p>Das Komma wandert 5 Stellen nach rechts, der Exponent ist also <b>5</b>.</p>`},
+
+ {src:"Prüfung 2017/18, Aufgabe 1b", q:"Von einem 5 m langen Stab werden fünf Teile von je 30 cm abgesägt.<br>Geben Sie an, wie lang das restliche Stück des Stabes ist.",
+  parts:[{type:"num", label:"", unit:"m oder cm", accept:[3.5, 350]}],
+  tip:"Rechne alles in dieselbe Einheit um, zum Beispiel in Zentimeter.",
+  sol:`<p class="calc">5 m = 500 cm<br>5 · 30 cm = 150 cm<br>500 cm − 150 cm = <b>350 cm = 3,5 m</b></p>`,
+  alt:"Auch richtig: 3,50 m oder 35 dm"},
+
+ {src:"Prüfung 2022/23, Aufgabe 1h", q:"Die Differenz aus dem Doppelten einer Zahl a und 13 wird verdreifacht.<br>Kreuzen Sie den zugehörigen Term an.",
+  parts:[{type:"mc", options:["(2a − 13) : 3","2a : 13 · 3","3 · (2a − 13)","2a − 13 · 3"], correct:2}],
+  tip:"Zuerst wird die Differenz gebildet. Erst danach wird das Ganze verdreifacht. Was braucht man deshalb?",
+  sol:`<p>Das Doppelte von a ist 2a. Die Differenz aus 2a und 13 ist 2a − 13. Diese ganze Differenz wird verdreifacht, deshalb muss sie in Klammern stehen.</p><p class="calc"><b>3 · (2a − 13)</b></p><p>Achtung bei 2a − 13 · 3: Hier würde wegen Punkt vor Strich nur die 13 verdreifacht.</p>`},
+
+ {src:"Prüfung 2017/18, Aufgabe 1j", q:"Ein Glücksrad hat 5 gleich große Felder: rote, grüne und weiße. Die Wahrscheinlichkeit, beim einmaligen Drehen auf ein rotes Feld zu treffen, liegt bei 40 %.<br>Geben Sie an, wie viele Felder rot sind.",
+  parts:[{type:"num", label:"", unit:"Felder", accept:[2]}],
+  tip:"Ein Feld von fünf entspricht 20 %.",
+  sol:`<p class="calc">1 Feld ≙ 100 % : 5 = 20 %<br>40 % : 20 % = 2</p><p>Es sind <b>2 Felder</b> rot. Probe: 2/5 = 0,4 = 40 % ✓</p>`},
+
+ {src:"Prüfung 2022/23, Aufgabe 1b", q:"Tim gewinnt bei einem Wettbewerb einen Geldpreis. Er schenkt 25 % des Gewinnes seinen Eltern. Das sind 200 €.<br>Geben Sie die gesamte Gewinnsumme an.",
+  parts:[{type:"num", label:"", unit:"€", accept:[800]}],
+  tip:"25 % ist ein Viertel. Gesucht ist der Grundwert, also das Ganze.",
+  sol:`<p class="calc">25 % ≙ 200 €<br>100 % ≙ 200 € · 4 = <b>800 €</b></p><p>Mit Formel: G = W : p = 200 € : 0,25 = 800 €</p>`},
+
+ {src:"Prüfung 2019/20, Aufgabe 1j", q:"Für x wurde die Gleichung <span class='calc'>sin 30° = 7 / x</span> aufgestellt.<br>Geben Sie den Wert von x an.",
+  parts:[{type:"num", label:"x =", accept:[14]}],
+  tip:"sin 30° hat einen besonders einfachen Wert. Tippe ihn in den Taschenrechner, falls du ihn nicht weißt.",
+  sol:`<p class="calc">sin 30° = 0,5<br>0,5 = 7 / x &nbsp;&nbsp;| · x<br>0,5 · x = 7 &nbsp;&nbsp;| : 0,5<br><b>x = 14</b></p>`},
+
+ {src:"Prüfung 2021/22, Aufgabe 1j", q:"Setzen Sie das richtige Zeichen ein: &nbsp;<span class='calc'>2<sup>−5</sup> &nbsp;☐&nbsp; 0,25</span>",
+  parts:[{type:"mc", options:["<","=",">"], correct:0}],
+  tip:"Ein negativer Exponent bedeutet „1 durch …“.",
+  sol:`<p class="calc">2<sup>−5</sup> = 1 / 2<sup>5</sup> = 1/32 ≈ 0,03</p><p class="calc">0,03 &lt; 0,25, also gilt <b>2<sup>−5</sup> &lt; 0,25</b></p>`},
+
+ {src:"Nachschreibtermin 2024/25, Aufgabe 1b", q:"Geben Sie 1,3 cm² in mm² an.",
+  parts:[{type:"num", label:"", unit:"mm²", accept:[130]}],
+  tip:"Bei Flächeneinheiten ist die Umrechnungszahl 100, nicht 10.",
+  sol:`<p class="calc">1 cm² = 100 mm²<br>1,3 cm² = 1,3 · 100 mm² = <b>130 mm²</b></p>`},
+
+ {src:"Prüfung 2023/24, Aufgabe 1h (2 Punkte)", q:"Ermitteln Sie den Median (den Zentralwert) der folgenden Datenreihe:<br>20 °C; 17 °C; 21 °C; 18 °C; 21 °C; 11 °C",
+  parts:[{type:"num", label:"Median =", unit:"°C", accept:[19]}],
+  points:2,
+  tip:"Ordne die Werte zuerst der Größe nach. Bei einer geraden Anzahl von Werten gibt es zwei mittlere Werte.",
+  sol:`<p class="calc">Geordnet: 11; 17; <u>18</u>; <u>20</u>; 21; 21</p><p>Es sind 6 Werte, also gibt es zwei mittlere Werte, 18 und 20. Der Median ist ihr Mittelwert.</p><p class="calc">(18 + 20) : 2 = <b>19 °C</b></p>`},
+
+ {src:"Prüfung 2022/23, Aufgabe 1a", q:"Nora benötigt für 4 km mit dem Fahrrad 25 Minuten.<br>Geben Sie an, wie viele Minuten sie bei gleicher Geschwindigkeit für 6 km braucht.",
+  parts:[{type:"num", label:"", unit:"min", accept:[37.5]}],
+  tip:"Rechne zuerst aus, wie lange sie für 2 km braucht.",
+  sol:`<p class="calc">4 km ≙ 25 min<br>2 km ≙ 12,5 min<br>6 km ≙ 12,5 min · 3 = <b>37,5 min</b></p>`,
+  alt:"Auch richtig: 37 min 30 s"},
+
+ {src:"Prüfung 2022/23, Aufgabe 1i", q:"Einer der folgenden Punkte liegt <u>nicht</u> auf der Geraden f mit der Gleichung f(x) = −7x + 3.<br>Kreuzen Sie diesen Punkt an.",
+  parts:[{type:"mc", options:["(−1 | 10)","(3 | −24)","(−4 | 31)"], correct:1}],
+  tip:"Setze jeweils den x-Wert in die Gleichung ein und vergleiche das Ergebnis mit dem y-Wert.",
+  sol:`<p class="calc">f(−1) = −7 · (−1) + 3 = 10 ✓<br>f(3) = −7 · 3 + 3 = −18 ≠ −24 ✗<br>f(−4) = −7 · (−4) + 3 = 31 ✓</p><p>Der Punkt <b>(3 | −24)</b> liegt nicht auf der Geraden.</p>`},
+
+ {src:"Prüfung 2022/23, Aufgabe 1c", q:"Ein Rechteck hat einen Flächeninhalt von 42 000 mm². Es ist 400 mm breit.<br>Geben Sie die Länge des Rechtecks an.",
+  parts:[{type:"num", label:"", unit:"mm", accept:[105]}],
+  tip:"A = Länge · Breite. Stelle nach der Länge um.",
+  sol:`<p class="calc">A = a · b &nbsp;&nbsp;→&nbsp;&nbsp; a = A : b<br>a = 42 000 mm² : 400 mm = <b>105 mm</b></p>`,
+  alt:"Auch richtig: 10,5 cm"},
+
+ {src:"Prüfung 2023/24, Aufgabe 1e", q:"Der Eintrittspreis in ein Schwimmbad beträgt 3,50 €. Der Preis wird um 20 % erhöht.<br>Geben Sie den neuen Eintrittspreis in Euro an.",
+  parts:[{type:"num", label:"", unit:"€", accept:[4.2]}],
+  tip:"Berechne die Erhöhung und addiere sie. Oder rechne direkt mit 120 %.",
+  sol:`<p class="calc">20 % von 3,50 € = 0,70 €<br>3,50 € + 0,70 € = <b>4,20 €</b></p><p>Kürzer mit dem Wachstumsfaktor: 3,50 € · 1,2 = 4,20 €</p>`,
+  alt:"Auch richtig: 4,2 €"}
+];
+
+const TOTAL = T.reduce((s,t)=>s+(t.points||t.parts.length),0);
+const state = T.map(t=>({checked:false, ok:t.parts.map(()=>false), mc:t.parts.map(()=>null)}));
+
+function parseNum(raw){
+  if(!raw) return NaN;
+  let s = raw.toLowerCase().replace(/\s+/g,"").replace(/−/g,"-")
+    .replace(/^[a-zγβα]+=/,"")
+    .replace(/(€|euro|mm²|cm²|mm2|cm2|mm|cm|dm|km|min|°c|°|grad|felder|feld|m)$/,"")
+    .replace(",",".");
+  if(/^-?\d+(\.\d+)?\/-?\d+(\.\d+)?$/.test(s)){ const [a,b]=s.split("/").map(Number); return a/b; }
+  return /^-?\d*\.?\d+$/.test(s) ? Number(s) : NaN;
+}
+
+function render(){
+  const box = document.getElementById("tasks");
+  box.innerHTML = "";
+  T.forEach((t,i)=>{
+    const el = document.createElement("article");
+    el.className = "task"; el.id = "t"+i;
+    let html = `<div class="head"><span class="num">Aufgabe ${i+1}</span><span class="src">${t.src}</span></div>
+      <div class="q">${t.q}</div>${t.fig?`<div>${t.fig}</div>`:""}`;
+    t.parts.forEach((p,j)=>{
+      if(p.type==="num"){
+        html += `<div class="field"><label for="in${i}_${j}">${p.label||"Ergebnis:"}</label>
+          <input type="text" inputmode="decimal" autocomplete="off" id="in${i}_${j}">
+          ${p.unit?`<span class="unit">${p.unit}</span>`:""}</div>`;
+      } else {
+        html += `<div class="mc" role="group" aria-label="Antwortmöglichkeiten">${p.options.map((o,k)=>
+          `<button type="button" aria-pressed="false" data-i="${i}" data-j="${j}" data-k="${k}">${o}</button>`).join("")}</div>`;
+      }
+    });
+    html += `<div class="actions">
+        <button class="btn" type="button" data-act="check" data-i="${i}">Prüfen</button>
+        <button class="btn ghost" type="button" data-act="tip" data-i="${i}">Tipp</button>
+        <button class="btn ghost" type="button" data-act="sol" data-i="${i}" disabled title="Erst nach dem Prüfen verfügbar">Lösungsvorschlag</button>
+      </div>
+      <div class="fb" id="fb${i}" aria-live="polite"></div>
+      <div class="box tip" id="tip${i}" hidden>💡 ${t.tip}</div>
+      <div class="box sol" id="sol${i}" hidden><h4>Lösungsvorschlag</h4>${t.sol}${t.alt?`<div class="alt">${t.alt}</div>`:""}</div>`;
+    el.innerHTML = html;
+    box.appendChild(el);
+  });
+}
+
+function check(i){
+  const t=T[i], st=state[i];
+  let allOk=true, anyEmpty=false;
+  t.parts.forEach((p,j)=>{
+    let ok=false;
+    if(p.type==="num"){
+      const inp=document.getElementById(`in${i}_${j}`);
+      const v=parseNum(inp.value);
+      if(inp.value.trim()==="") anyEmpty=true;
+      ok = !isNaN(v) && p.accept.some(a=>Math.abs(a-v)<1e-6);
+      inp.classList.remove("ok","no"); if(inp.value.trim()!=="") inp.classList.add(ok?"ok":"no");
+    } else {
+      const sel=st.mc[j];
+      if(sel===null) anyEmpty=true;
+      ok = sel===p.correct;
+      document.querySelectorAll(`#t${i} .mc button`).forEach(b=>{
+        b.classList.remove("ok","no");
+        if(+b.dataset.k===sel) b.classList.add(ok?"ok":"no");
+      });
+    }
+    st.ok[j]=ok; if(!ok) allOk=false;
+  });
+  const fb=document.getElementById("fb"+i);
+  if(anyEmpty && !allOk){ fb.className="fb no"; fb.textContent="Trage zuerst ein Ergebnis ein oder wähle eine Antwort."; return; }
+  st.checked=true;
+  fb.className="fb "+(allOk?"ok":"no");
+  if(allOk) fb.textContent="✓ Richtig! Vergleiche trotzdem deinen Rechenweg mit dem Lösungsvorschlag.";
+  else if(st.ok.some(Boolean)) fb.textContent="Teilweise richtig. Prüfe die rot markierte Antwort noch einmal.";
+  else fb.textContent="✗ Noch nicht richtig. Schau dir den Tipp an und versuche es noch einmal.";
+  document.querySelector(`#t${i} [data-act=sol]`).disabled=false;
+  document.querySelector(`#t${i} [data-act=sol]`).removeAttribute("title");
+  document.getElementById("t"+i).classList.toggle("done",allOk);
+  updateScore();
+}
+
+function points(i){
+  const t=T[i], ok=state[i].ok;
+  if(t.points) return ok.every(Boolean)?t.points:0;
+  return ok.filter(Boolean).length;
+}
+function updateScore(){
+  const s=T.reduce((a,_,i)=>a+points(i),0);
+  document.getElementById("score").textContent=`${s} von ${TOTAL} Punkten`;
+  document.getElementById("meter").style.width=(s/TOTAL*100)+"%";
+  return s;
+}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.closest(".mc")){
+    const i=+b.dataset.i, j=+b.dataset.j, k=+b.dataset.k;
+    state[i].mc[j]=k;
+    b.parentElement.querySelectorAll("button").forEach(x=>{x.setAttribute("aria-pressed",x===b?"true":"false"); x.classList.remove("ok","no");});
+    return;
+  }
+  const i=+b.dataset.i;
+  if(b.dataset.act==="check") check(i);
+  if(b.dataset.act==="tip"){ const t=document.getElementById("tip"+i); t.hidden=!t.hidden; }
+  if(b.dataset.act==="sol"){ const s=document.getElementById("sol"+i); s.hidden=!s.hidden; b.textContent=s.hidden?"Lösungsvorschlag":"Lösung ausblenden"; }
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.matches("input[type=text]")){ check(+e.target.id.slice(2).split("_")[0]); }
+});
+
+document.getElementById("evalBtn").addEventListener("click",()=>{
+  const s=updateScore();
+  const open=[], wrong=[];
+  T.forEach((t,i)=>{ if(!state[i].checked) open.push(i+1); else if(points(i)<(t.points||t.parts.length)) wrong.push(i+1); });
+  const pct=Math.round(s/TOTAL*100);
+  let msg=`Du hast <b>${s} von ${TOTAL} Punkten</b> erreicht (${pct} %). `;
+  msg += pct>=90?"Hervorragend, die Basisaufgaben sitzen!":pct>=70?"Gut gemacht, nur noch wenige Lücken.":pct>=50?"Ein solider Anfang. Wiederhole die Aufgaben, die noch nicht geklappt haben.":"Hier lohnt sich noch Übung. Nutze die Tipps und Lösungsvorschläge.";
+  if(wrong.length) msg+=`<br>Noch einmal ansehen: Aufgabe ${wrong.join(", ")}.`;
+  if(open.length) msg+=`<br>Noch nicht bearbeitet: Aufgabe ${open.join(", ")}.`;
+  document.getElementById("endText").innerHTML=msg;
+});
+
+document.getElementById("reset").addEventListener("click",()=>{
+  if(!confirm("Alle Eingaben löschen und neu beginnen?")) return;
+  state.forEach(s=>{s.checked=false; s.ok=s.ok.map(()=>false); s.mc=s.mc.map(()=>null);});
+  render(); updateScore();
+  document.getElementById("endText").textContent="Bearbeite die Aufgaben und klicke dann hier auf „Auswerten“.";
+  window.scrollTo(0,0);
+});
+
+render(); updateScore();
+</script>
+</body>
+</html>
