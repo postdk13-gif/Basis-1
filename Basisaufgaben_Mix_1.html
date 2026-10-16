@@ -69,6 +69,25 @@
   @media (max-width:520px){ body{font-size:16px} header h1{font-size:1.6rem} .head{flex-direction:column;gap:0} .src{text-align:left} }
   @media (prefers-reduced-motion:reduce){ .meter span{transition:none} }
   @media print{ .bar,.actions,.fb{display:none} body{background:none} .task{break-inside:avoid} }
+
+  /* Taschenrechner */
+  .tr-btn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;width:60px;height:60px;border-radius:50%;
+    border:none;background:var(--blue);color:#fff;font-size:1.7rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .tr{position:fixed;right:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:20;width:300px;max-width:calc(100vw - 32px);
+    background:#fff;border:2px solid var(--blue);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.25);padding:10px}
+  .tr[hidden]{display:none}
+  .tr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:.85rem;color:var(--muted)}
+  .tr-top button{border:none;background:none;font-size:1.2rem;cursor:pointer;color:var(--muted)}
+  .tr-disp{background:var(--blue-soft);border-radius:6px;padding:6px 10px;text-align:right;margin-bottom:8px;min-height:64px}
+  .tr-expr{font-size:.95rem;color:var(--muted);word-break:break-all;min-height:1.3em}
+  .tr-res{font-size:1.5rem;font-weight:600;color:var(--blue);word-break:break-all}
+  .tr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+  .tr-grid button{font:inherit;font-size:1rem;padding:10px 0;border-radius:6px;border:1px solid var(--line);background:#f6f8fc;cursor:pointer;color:var(--ink)}
+  .tr-grid button.fn{background:#eef3fb;color:var(--blue);font-size:.9rem}
+  .tr-grid button.op{background:#dfe8f7;color:var(--blue);font-weight:600}
+  .tr-grid button.eq{background:var(--blue);color:#fff;font-weight:700}
+  .tr-grid button.on{background:var(--blue);color:#fff}
+  @media print{.tr-btn,.tr{display:none}}
 </style>
 </head>
 <body>
@@ -347,6 +366,59 @@ document.getElementById("reset").addEventListener("click",()=>{
 });
 
 render(); updateScore();
+</script>
+
+<button class="tr-btn" id="trOpen" type="button" aria-label="Taschenrechner öffnen" title="Taschenrechner">🧮</button>
+<div class="tr" id="tr" hidden role="dialog" aria-label="Taschenrechner">
+  <div class="tr-top"><span>Taschenrechner (Winkel in Grad)</span><button type="button" id="trClose" aria-label="Schließen">✕</button></div>
+  <div class="tr-disp"><div class="tr-expr" id="trExpr"></div><div class="tr-res" id="trRes">0</div></div>
+  <div class="tr-grid" id="trGrid"></div>
+</div>
+<script>
+(function(){
+  const keys=[["2nd","fn"],["sin","fn"],["cos","fn"],["tan","fn"],["π","fn"],
+              ["√","fn"],["x²","fn"],["^","fn"],["(","fn"],[")","fn"],
+              ["7"],["8"],["9"],["÷","op"],["C","op"],
+              ["4"],["5"],["6"],["×","op"],["⌫","op"],
+              ["1"],["2"],["3"],["−","op"],["Ans","fn"],
+              ["0"],[","],["±","fn"],["+","op"],["=","eq"]];
+  const grid=document.getElementById("trGrid"), ex=document.getElementById("trExpr"), rs=document.getElementById("trRes");
+  let expr="", ans=0, second=false, justEval=false;
+  keys.forEach(([k,c])=>{const b=document.createElement("button");b.type="button";b.textContent=k;b.dataset.k=k;if(c)b.className=c;grid.appendChild(b);});
+  const fmt=v=>{ if(!isFinite(v)) return "Fehler"; let s=Math.abs(v)<1e-10?"0":(+v.toPrecision(10)).toString(); return s.replace(".",","); };
+  function evaluate(e){
+    let s=e.replace(/×/g,"*").replace(/÷/g,"/").replace(/−/g,"-").replace(/,/g,".").replace(/π/g,"(PI)").replace(/Ans/g,"("+ans+")")
+      .replace(/sin⁻¹\(/g,"AS(").replace(/cos⁻¹\(/g,"AC(").replace(/tan⁻¹\(/g,"AT(")
+      .replace(/sin\(/g,"S(").replace(/cos\(/g,"C(").replace(/tan\(/g,"T(").replace(/√\(/g,"R(")
+      .replace(/²/g,"^2").replace(/\^/g,"**");
+    const open=(s.match(/\(/g)||[]).length-(s.match(/\)/g)||[]).length; s+=")".repeat(Math.max(0,open));
+    if(!/^[0-9.+\-*/() SCTRAPIe]*$/.test(s)) throw 0;
+    const d=Math.PI/180;
+    return Function("S","C","T","AS","AC","AT","R","PI","return ("+s+")")(
+      x=>Math.sin(x*d),x=>Math.cos(x*d),x=>Math.tan(x*d),x=>Math.asin(x)/d,x=>Math.acos(x)/d,x=>Math.atan(x)/d,Math.sqrt,Math.PI);
+  }
+  function show(){ ex.textContent=expr; }
+  grid.addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b) return; const k=b.dataset.k;
+    if(justEval && /^[0-9,π(√]$|^sin|^cos|^tan/.test(k)) expr="";
+    justEval=false;
+    if(k==="C"){expr="";rs.textContent="0";}
+    else if(k==="⌫"){expr=expr.replace(/(sin⁻¹\(|cos⁻¹\(|tan⁻¹\(|sin\(|cos\(|tan\(|√\(|Ans|.)$/,"");}
+    else if(k==="2nd"){second=!second;b.classList.toggle("on",second);
+      grid.querySelectorAll("button").forEach(x=>{if(["sin","cos","tan"].includes(x.dataset.k)) x.textContent=x.dataset.k+(second?"⁻¹":"");});}
+    else if(["sin","cos","tan"].includes(k)){expr+=k+(second?"⁻¹":"")+"(";}
+    else if(k==="√"){expr+="√(";}
+    else if(k==="x²"){expr+="²";}
+    else if(k==="±"){expr+="(−";}
+    else if(k==="="){ if(!expr) return; try{const v=evaluate(expr); rs.textContent=fmt(v); if(isFinite(v)) ans=v; justEval=true;}catch(_){rs.textContent="Eingabe prüfen";} }
+    else if(["+","−","×","÷","^"].includes(k) && expr==="" ){expr="Ans"+k;}
+    else expr+=k;
+    show();
+  });
+  const box=document.getElementById("tr");
+  document.getElementById("trOpen").onclick=()=>{box.hidden=!box.hidden;};
+  document.getElementById("trClose").onclick=()=>{box.hidden=true;};
+})();
 </script>
 </body>
 </html>
