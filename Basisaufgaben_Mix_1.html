@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Basisaufgaben Mix 1 – Prüfungsvorbereitung Klasse 10</title>
 <style>
   :root{
@@ -10,6 +10,8 @@
     --red:#c22f3a; --red-soft:#fbe9ea; --green:#2c7a4b; --green-soft:#e5f3ea; --muted:#5d6678; --line:#c9d3e2;
   }
   *{box-sizing:border-box}
+  :root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
   html{-webkit-text-size-adjust:100%}
   body{
     margin:0; color:var(--ink); font:17px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
@@ -20,7 +22,7 @@
   .wrap{max-width:780px;margin:0 auto;padding:28px 18px 80px}
   header h1{font-family:Georgia,"Times New Roman",serif;font-size:2rem;line-height:1.2;margin:0 0 6px;color:var(--blue)}
   header p{margin:0 0 6px;color:var(--muted)}
-  .bar{position:sticky;top:0;z-index:5;background:rgba(253,253,251,.96);border-bottom:2px solid var(--blue);
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(253,253,251,.96);border-bottom:2px solid var(--blue);
        margin:18px -18px 22px;padding:10px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   .meter{flex:1;min-width:160px;height:12px;background:var(--blue-soft);border-radius:6px;overflow:hidden}
   .meter span{display:block;height:100%;width:0;background:var(--green);transition:width .4s}
@@ -240,7 +242,7 @@ function render(){
     t.parts.forEach((p,j)=>{
       if(p.type==="num"){
         html += `<div class="field"><label for="in${i}_${j}">${p.label||"Ergebnis:"}</label>
-          <input type="text" inputmode="decimal" autocomplete="off" id="in${i}_${j}">
+          <input type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" id="in${i}_${j}">
           ${p.unit?`<span class="unit">${p.unit}</span>`:""}</div>`;
       } else {
         html += `<div class="mc" role="group" aria-label="Antwortmöglichkeiten">${p.options.map((o,k)=>
